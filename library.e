@@ -33,6 +33,7 @@ feature -- Operations
 		ensure
 			modify ([Current, books])
 			-- Task6: add postconditions for the routine `LIBRARY.add_book'
+            books_increment: books.count = old books.count + 1
 		end
 
 	search_book_isbn (a_isbn: V_STRING): INTEGER
@@ -40,6 +41,7 @@ feature -- Operations
 			-- Return the index of the book whose ISBN is `a_isbn''
 		require
 			-- Task7: add a precondition for routine `LIBRARY.search_book_isbn'
+            a_isbn /= Void
 			books.is_wrapped
 		local
 			i: INTEGER
@@ -47,6 +49,8 @@ feature -- Operations
 			from
 				i := 1
 				-- Task10: add loop invariants for the routine `LIBRARY.search_book_isbn'
+            invariant 
+                i > 0
 			until
 				i > books.count
 			loop
@@ -55,13 +59,13 @@ feature -- Operations
 				end
 				i := i + 1
 				variant
-					0
-				-- Task8: add a loop variant for the routine `LIBRARY.search_book_isbn'
-
+    			-- Task8: add a loop variant for the routine `LIBRARY.search_book_isbn'
+				   books.count - i
+               
 			end
 		ensure
 			-- Task9: add postconditions for the routine `LIBRARY.search_book_isbn'
+            should_return_result: Result = Void or (Result /= Void and books[Result].isbn ~ a_isbn)
 		end
-
 end
 

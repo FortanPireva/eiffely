@@ -50,6 +50,7 @@ feature -- Operations
 			set_checked_out_books_count (checked_out_books_count + 1)
 		ensure
 			modify (Current, a_book)
+    	    -- checked_out_books_count = old checked_out_books_count + 1
 			-- Task11: add postconditions for the routine `PATRON.check_out_book'
 		end
 
@@ -63,6 +64,7 @@ feature -- Operations
 			i: INTEGER
 		do
 			-- Task12: complete implementation for the routine `PATRON.return_book'
+            a_book.return_book
 		ensure
 			modify (Current, a_book)
 			book_returned: a_book.is_available
