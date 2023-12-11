@@ -2,11 +2,11 @@ class
     PATRON
 
 create
-	make
+    make
 
 feature {NONE}
 
-	make (a_name: V_STRING; a_id: V_STRING)
+    make (a_name: V_STRING; a_id: V_STRING)
 			-- Initialization
 		note
 			status: creator
@@ -60,10 +60,12 @@ feature -- Operations
 			explicit: wrapping
 		require
 			valid_checked_out_book: (not a_book.is_available)
+            valid_patron: a_book.patron /= Void
 		local
 			i: INTEGER
 		do
 			-- Task12: complete implementation for the routine `PATRON.return_book'
+    		set_checked_out_books_count (checked_out_books_count - 1)
             a_book.return_book
 		ensure
 			modify (Current, a_book)

@@ -65,7 +65,7 @@ feature -- Operations
 			end
 		ensure
 			-- Task9: add postconditions for the routine `LIBRARY.search_book_isbn'
-            should_return_result: Result = Void or (Result /= Void and books[Result].isbn ~ a_isbn)
+			valid_result: Result <= books.count and Result > 0 implies books[Result] /= Void and books[Result].isbn ~ a_isbn
 		end
 end
 
