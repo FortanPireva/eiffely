@@ -2,7 +2,7 @@ class
     LIBRARY
 
 create
-	make
+    make
 
 feature {NONE}
 
@@ -42,7 +42,9 @@ feature -- Operations
 		require
 			-- Task7: add a precondition for routine `LIBRARY.search_book_isbn'
             a_isbn /= Void
-			books.is_wrapped
+            books.count > 0
+            books.is_wrapped
+            across 1 |..| books.count  as j all books [j] /= Void end
 		local
 			i: INTEGER
 		do
@@ -50,7 +52,8 @@ feature -- Operations
 				i := 1
 				-- Task10: add loop invariants for the routine `LIBRARY.search_book_isbn'
             invariant 
-                i > 0
+                in_range: i >= 1 and  i <= books.count + 1
+                if_found_result_true: Result <= books.count and Result > 0 implies books[Result] /= Void and books[Result].isbn ~ a_isbn
 			until
 				i > books.count
 			loop
@@ -60,12 +63,12 @@ feature -- Operations
 				i := i + 1
 				variant
     			-- Task8: add a loop variant for the routine `LIBRARY.search_book_isbn'
-				   books.count - i
-               
+				   decrement: books.count - i
+                
 			end
 		ensure
 			-- Task9: add postconditions for the routine `LIBRARY.search_book_isbn'
-			valid_result: Result <= books.count and Result > 0 implies books[Result] /= Void and books[Result].isbn ~ a_isbn
-		end
+            valid_result: Result <= books.count and Result > 0 implies books[Result] /= Void and books[Result].isbn ~ a_isbn		
+        end
 end
 
